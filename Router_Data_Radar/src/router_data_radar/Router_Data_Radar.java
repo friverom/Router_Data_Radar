@@ -33,7 +33,8 @@ public class Router_Data_Radar {
         //Servers address
         InetAddress str1 = InetAddress.getByName("10.0.2.131");
         InetAddress str2 = InetAddress.getByName("10.0.2.132");
-        InetAddress adr = InetAddress.getByName("10.0.2.133");
+        InetAddress sagi1 = InetAddress.getByName("10.0.2.133");
+        InetAddress sagi2 = InetAddress.getByName("10.0.2.134");
         
         //Create data packet object to receive data from radar
         
@@ -42,7 +43,10 @@ public class Router_Data_Radar {
         //Create data packet object to send data to servers
         DatagramPacket dpStr1 = null;
         DatagramPacket dpStr2 = null;
-        DatagramPacket dpAdr = null;
+        DatagramPacket dpSagi1 = null;
+        DatagramPacket dpSagi2 = null;
+        
+        System.out.println("Radar Data Router installed...");
         
         while(true){
             DpReceive = new DatagramPacket(receive, receive.length);
@@ -50,22 +54,28 @@ public class Router_Data_Radar {
             ds.receive(DpReceive); //wait for data
             dpStr1=DpReceive;
             dpStr2=DpReceive;
-            dpAdr=DpReceive;
+            dpSagi1=DpReceive;
+            dpSagi2=DpReceive;
             
             //Create UDP packet to server 1
             dpStr1.setAddress(str1);
-            dpStr1.setPort(4201);
+            dpStr1.setPort(4202);
             ts1.send(dpStr1); 
             
             //Create UDP packet to server 2
             dpStr2.setAddress(str2);
-            dpStr2.setPort(4201);
+            dpStr2.setPort(4202);
             ts1.send(dpStr2);
             
-            //Create UDP packet to ADR server
-            dpAdr.setAddress(adr);
-            dpAdr.setPort(4201);
-            ts1.send(dpAdr); 
+            //Create UDP packet to Sagitario server 1
+            dpSagi1.setAddress(sagi1);
+            dpSagi1.setPort(4202);
+            ts1.send(dpSagi1); 
+            
+            //Create UDP packet to Sagitario server 2
+            dpSagi2.setAddress(sagi2);
+            dpSagi2.setPort(4202);
+            ts1.send(dpSagi2); 
             
             //Clear receive buffer
             receive = new byte[1024];
